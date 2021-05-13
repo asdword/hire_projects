@@ -1,4 +1,5 @@
 ## Todo Task List
+![perview of todo-task](/pics/demo.png "demo of todo-task")
 
 In the project directory, you can run:
 

@@ -80,6 +80,7 @@ export default function TaskApp() {
         <Container>
 
             <TaskList
+                allTaskCount={tasks.length}
                 onOpenTask={show_initDialog}
                 onArchiveTask={handleOnDoneTask}
                 onOpenArchiveTasks={handleOpenArchiveTasks}

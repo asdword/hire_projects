@@ -6,47 +6,59 @@ import TaskCard from './TaskCard'
 import PT from 'prop-types'
 
 
-function TaskList({ activeTasks, onOpenTask, onArchiveTask ,onOpenArchiveTasks}) {
+function TaskList({ activeTasks, onOpenTask, onArchiveTask, onOpenArchiveTasks, allTaskCount }) {
 
     const classes = useStyles();
-    const isempty = activeTasks.length === 0;
+    const haveActiveTasks = activeTasks.length > 0;
+    const haveTasks = allTaskCount > 0;
 
     return (
-        <>
-            {isempty &&
+        <Box>
+
+            {!haveTasks &&
+
                 <Typography variant="div" style={{ textAlign: 'center' }}>
-                    <Button color='primary' variant="contained" onClick={onOpenTask.bind(this, ADD)}>Add first task ;)</Button>
+                    <Button color='primary'
+                        variant="contained"
+                        onClick={onOpenTask.bind(this, ADD)}>Add first task ;)</Button>
                 </Typography>
             }
 
-            {!isempty &&
-                <Box>
-                    <Button color='primary' variant="contained" onClick={onOpenArchiveTasks}>View done tasks</Button>
 
-                    <List className={classes.taskZone}>
-
-                        {activeTasks.map((each, index) =>
-                            <>
-                                <TaskCard {...each} key={index}
-                                    onEditTask={onOpenTask.bind(this, VIEW, each.id)}
-                                    onDoneTask={onArchiveTask.bind(this, each.id)}
-                                />
-
-                                {(index < activeTasks.length - 1) && <Divider variant="inset" component="li" />}
-                            </>
-                        )}
-
-                    </List>
-
+            {haveTasks &&
+                <>
+                    <Button color='primary'
+                        variant="contained"
+                        onClick={onOpenArchiveTasks}>View done tasks</Button>
+                  
                     <Fab color="primary"
                         className={classes.fabFixPosition}
                         onClick={onOpenTask.bind(this, ADD, null)}>
                         <Add />
                     </Fab>
-
-                </Box>
+                </>
             }
-        </>
+
+            {haveActiveTasks &&
+
+                <List className={classes.taskZone}>
+
+                    {activeTasks.map((each, index) =>
+                        <>
+                            <TaskCard {...each} key={index}
+                                onEditTask={onOpenTask.bind(this, VIEW, each.id)}
+                                onDoneTask={onArchiveTask.bind(this, each.id)}
+                            />
+
+                            {(index < activeTasks.length - 1) && <Divider variant="inset" component="li" />}
+                        </>
+                    )}
+
+                </List>
+
+            }
+
+        </Box>
     )
 }
 
@@ -66,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
 TaskList.propTypes = {
     activeTasks: PT.array.isRequired,
     onOpenTask: PT.func.isRequired,
-    onArchiveTask : PT.func,
+    onArchiveTask: PT.func,
     onOpenArchiveTasks: PT.func
 }
 TaskList.defaultProps = {

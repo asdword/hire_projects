@@ -1,5 +1,5 @@
 ## Todo Task List
-![perview of todo-task](/pics/demo.png "demo of todo-task")
+![perview of todo-task](https://github.com/asdword/hire_projects/blob/main/todo-task/pics/demo.png "demo of todo-task")
 
 In the project directory, you can run:
 

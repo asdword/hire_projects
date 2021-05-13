@@ -5,16 +5,12 @@ import { Add } from '@material-ui/icons';
 import TaskCard from './TaskCard';
 import FormDialog from './FormDialog';
 import TaskForm from './TaskForm';
-
-const ADD = 'ADD'
-const EDIT = 'EDIT'
-const ARCHIVE = 'ARCHIVE'
+import { ADD, VIEW, ARCHIVE, EDIT } from '../constant';
 
 export default function TaskList() {
     const [openDialog, setOpenDialog] = React.useState(false)
     const [selectTask, setSelectTask] = React.useState()
-    const [formType, setFormType] = React.useState()
-    const [contentDialog, setContentDialog] = React.useState(null)
+    const [dialogData, setDialogData] = React.useState()
     const { tasks } = React.useContext(TasksContext)
     const isempty = tasks.length === 0
     const classes = useStyles();
@@ -22,37 +18,56 @@ export default function TaskList() {
 
     const onCloseDialog = () => setOpenDialog(false)
 
-    const showDialog = (type, id) => {
-        console.log(type,id);
+    const show_initDialog = (mode, id) => {
+        let title = null;
         const task = tasks.find(each => each.id == id);
+
+
+        setDialogDataByMode(mode)
         setOpenDialog(true);
-        setFormType(type);
-        setSelectTask({ ...task, title: task?.title || 'Create new task' });
+        setSelectTask(task);
     }
-
-    const renderContentDialog = () => {
-        switch (formType) {
+    const setDialogDataByMode = (mode) => {
+        let title = null;
+        switch (mode) {
             case ADD:
-
-                return <TaskForm />
+                title = 'Create a new task'
+                break;
             case EDIT:
+                title = 'Edit task'
+                break;
 
-                return <h1>{EDIT}</h1>
+            case VIEW:
+                title = 'View task'
+                break;
+
             case ARCHIVE:
+                title = 'Archive task'
+                break;
 
-                return <h1>{ARCHIVE}</h1>
-
-            default:
-                return null
         }
+        setDialogData({ mode, title });
+
     }
 
+    const handleOnSaveTask = () => {
+
+    }
+    const handleOnDoneTask = () => {
+
+    }
+    const handleOnEditMode = () => {
+        setDialogDataByMode(EDIT)
+    }
+    const handleOnDeleteTask = () => {
+
+    }
     return (
         <Container>
 
             {isempty &&
 
-                <Button color='primary' variant="contained" onClick={showDialog.bind(this,ADD)}>Add first task ;)</Button>
+                <Button color='primary' variant="contained" onClick={show_initDialog.bind(this, ADD)}>Add first task ;)</Button>
             }
 
             {!isempty &&
@@ -63,8 +78,8 @@ export default function TaskList() {
                         {tasks.map((each, index) =>
                             <>
                                 <TaskCard {...each} key={index}
-                                    onEditTask={showDialog.bind(this,EDIT, each.id)}
-                                    onDoneTask={showDialog.bind(this,each.id)}
+                                    onEditTask={show_initDialog.bind(this, VIEW, each.id)}
+                                    onDoneTask={show_initDialog.bind(this, ARCHIVE, each.id)}
                                 />
 
                                 {(index < tasks.length - 1) && <Divider variant="inset" component="li" />}
@@ -75,15 +90,22 @@ export default function TaskList() {
 
                     <Fab color="primary"
                         className={classes.fabFixPosition}
-                        onClick={showDialog.bind(this,ADD)}>
+                        onClick={show_initDialog.bind(this, ADD, null)}>
                         <Add />
                     </Fab>
 
                 </Box>
             }
 
-            <FormDialog open={openDialog} title={selectTask?.title} handleClose={onCloseDialog}>
-                {renderContentDialog()}
+            <FormDialog open={openDialog} title={dialogData?.title} handleClose={onCloseDialog}>
+                <DialogContentDaynamic
+                    mode={dialogData?.mode}
+                    {...selectTask}
+
+                    onSaveTask={handleOnSaveTask}
+                    onDoneTask={handleOnDoneTask}
+                    onEditMode={handleOnEditMode}
+                    onDeleteTask={handleOnDeleteTask} />
             </FormDialog>
 
         </Container>
@@ -103,3 +125,18 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#ffff',
     },
 }));
+
+function DialogContentDaynamic({ mode, ...props }) {
+    switch (mode) {
+        case ADD:
+        case VIEW:
+        case EDIT:
+            return <TaskForm {...props} mode={mode} />
+
+        case ARCHIVE:
+            return <h1>{ARCHIVE}</h1>
+
+        default:
+            return null
+    }
+}

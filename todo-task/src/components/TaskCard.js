@@ -3,7 +3,7 @@ import { Folder, FiberManualRecordRounded } from '@material-ui/icons'
 import { Avatar, Box, Button, ListItem, ListItemAvatar, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
 import PT from 'prop-types'
 
-function TaskCard({ onEditTask, onDoneTask, title, subTitle, type }) {
+function TaskCard({ onEditTask, onDoneTask, title, decs, status }) {
     const classes = useStyles();
 
     return (
@@ -16,15 +16,15 @@ function TaskCard({ onEditTask, onDoneTask, title, subTitle, type }) {
 
 
             <ListItemText
-                primary="Single-line item"
-                secondary='Secondary text'
+                primary={title}
+                secondary={decs}
             />
 
             <ListItemIcon className={classes.cardActionZone}>
 
-                <Box>
-                    Higth
-                    <FiberManualRecordRounded className='' />
+                <Box className={classes.statusZone}>
+                    {status}
+                    <FiberManualRecordRounded />
                 </Box>
 
                 <Box className={classes.mt1}>
@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
     mt1: {
         marginTop: '1rem',
     },
+    statusZone:{
+        display:'flex',
+        alignItems:'center'
+    }
 }));
 
 

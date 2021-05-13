@@ -1,52 +1,122 @@
 import React from 'react'
-import { Box, Button, FormControlLabel, Radio, RadioGroup, TextField } from '@material-ui/core'
+import { Box, Button, FormControlLabel, makeStyles, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
+import { VIEW, EDIT } from '../constant';
+
 
 export default function TaskForm({ mode, ...props }) {
-    return mode === 'view' ?
-        <TaskForm_EditMode {...props} />
+    return mode === VIEW ?
+        <TaskForm_ViewMode {...props} />
         :
         <TaskForm_EditMode {...props} />
 }
 
 
-function TaskForm_EditMode({ title, decs, type, mode }) {
-    
-    const handleChange = (e) => {
+function TaskForm_ViewMode({ id, title, decs, status, onDeleteTask, onDoneTask, onEditMode }) {
+    const classes = useStyles();
 
+    return (
+        <Box>
+            <Typography variant="h6" className={classes.textCenter}>
+                {title}
+            </Typography>
+
+            <Typography variant="p">
+                {decs}
+            </Typography>
+
+            <Box className={classes.footerButtonZone}>
+
+                <Button variant="contained" color="secondary" onClick={onDeleteTask}>
+                    Delete Task
+                </Button>
+                <Button variant="contained" color="default" onClick={onDoneTask}>
+                    Done Task
+                </Button>
+                <Button variant="contained" color="primary" onClick={onEditMode}>
+                    Edit Task
+                </Button>
+            </Box>
+        </Box>
+    )
+}
+
+function TaskForm_EditMode({ onSaveTask, ...props }) {
+    const classes = useStyles();
+    const [formData, setFormData] = React.useState(props)
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...setFormData, [name]: value })
+    }
+
+    const handleOnSaveTask = (e) => {
+        onSaveTask(formData)
     }
 
     return (
         <Box>
             <TextField
                 fullWidth
-                style={{ margin: 8 }}
+                className={classes.m8}
                 label="Task Title"
                 variant="outlined"
-                value={title} />
+                name='title'
+                value={formData?.title} />
 
             <TextField
                 fullWidth
-                style={{ margin: 8 }}
+                value={formData?.decs}
+                name='decs'
+                className={classes.m8}
                 label="Task description"
                 multiline
                 rows={4}
-                value={decs}
                 variant="outlined"
             />
 
             <RadioGroup
-                name="type"
-                value={type}
+                name="status"
+                value={formData?.status}
                 onChange={handleChange}
-                style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                className={classes.taskStatusZone}>
 
                 <FormControlLabel value="high" control={<Radio />} label="High" />
                 <FormControlLabel value="medium" control={<Radio />} label="Medium" />
                 <FormControlLabel value="low" control={<Radio />} label="Low" />
 
             </RadioGroup>
-
-            <Button color='primary' variant="contained" size='large' style={{margin:10}}> Save task</Button>
+            <Box className={classes.footerButtonZone}>
+                <Button
+                    onClick={handleOnSaveTask}
+                    color='primary'
+                    variant="contained"
+                    size='large'
+                    fullWidth
+                    className={classes.m8}>
+                    Save task to tasks
+                </Button>
+            </Box>
         </Box>
     )
 }
+
+
+
+const useStyles = makeStyles((theme) => ({
+    m8: {
+        margin: 8
+    },
+    taskStatusZone: {
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    textCenter: {
+        textAlign: 'center'
+    },
+    footerButtonZone: {
+        marginTop: 8,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'end',
+    }
+}))

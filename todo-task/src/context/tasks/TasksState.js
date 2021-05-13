@@ -4,16 +4,16 @@ import taskReducer from './taskReducer';
 
 const initialState = {
   tasks: [{
-    id:1,
-    status:'low',
-    title:'some works',
-    decs:'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت '
+    id: 1,
+    status: 'low',
+    title: 'some works',
+    decs: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت '
   },
   {
-    id:2,
-    status:'medium',
-    title:'other works',
-    decs:'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و '
+    id: 2,
+    status: 'medium',
+    title: 'other works',
+    decs: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و '
   }]
 }
 
@@ -45,13 +45,14 @@ export const TasksProvider = ({ children }) => {
     });
   }
 
+
   return (
     <TasksContext.Provider
       value={{
         tasks: state.tasks,
         addTask,
         editTask,
-        removeTask
+        removeTask,
       }}
     >
       {children}

@@ -7,7 +7,7 @@ function TaskCard({ onEditTask, onDoneTask, title, decs, status }) {
     const classes = useStyles();
 
     return (
-        <ListItem>
+        <ListItem onClick={onEditTask}>
             <ListItemAvatar>
                 <Avatar>
                     <Folder />

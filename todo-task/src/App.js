@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { TasksProvider } from './context/tasks/TasksState';
-import TaskList from './components/TaskList';
+import TaskApp from './components/TaskApp';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
 
         <TasksProvider >
 
-          <TaskList />
+          <TaskApp />
 
         </TasksProvider>
 

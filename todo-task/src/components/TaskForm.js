@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Button, FormControlLabel, makeStyles, Radio, RadioGroup, TextField, Typography } from '@material-ui/core'
 import { VIEW, EDIT } from '../constant';
+import { FiberManualRecordRounded } from '@material-ui/icons';
 
 
 export default function TaskForm({ mode, ...props }) {
@@ -16,8 +17,12 @@ function TaskForm_ViewMode({ id, title, decs, status, onDeleteTask, onDoneTask, 
 
     return (
         <Box>
-            <Typography variant="h6" className={classes.textCenter}>
+            <Typography variant="h6" className={classes.taskHeader}>
                 {title}
+                <Box className={classes.statusZone}>
+                    {status}
+                    <FiberManualRecordRounded />
+                </Box>
             </Typography>
 
             <Typography variant="p">
@@ -26,10 +31,10 @@ function TaskForm_ViewMode({ id, title, decs, status, onDeleteTask, onDoneTask, 
 
             <Box className={classes.footerButtonZone}>
 
-                <Button variant="contained" color="secondary" onClick={onDeleteTask}>
+                <Button variant="contained" color="secondary" onClick={onDeleteTask.bind(this,id)}>
                     Delete Task
                 </Button>
-                <Button variant="contained" color="default" onClick={onDoneTask}>
+                <Button variant="contained" color="default" onClick={onDoneTask.bind(this,id)}>
                     Done Task
                 </Button>
                 <Button variant="contained" color="primary" onClick={onEditMode}>
@@ -46,31 +51,44 @@ function TaskForm_EditMode({ onSaveTask, ...props }) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...setFormData, [name]: value })
+        console.log(name, value);
+        setFormData({ ...formData, [name]: value })
     }
 
-    const handleOnSaveTask = (e) => {
+    const handleOnSaveTask = (e) =>
         onSaveTask(formData)
-    }
+
 
     return (
         <Box>
             <TextField
                 fullWidth
+                placeholder="task title ..."
+                margin="normal"
+                InputLabelProps={{
+                    shrink: true,
+                }}
                 className={classes.m8}
                 label="Task Title"
                 variant="outlined"
                 name='title'
+                onChange={handleChange}
                 value={formData?.title} />
 
             <TextField
                 fullWidth
+                placeholder="task description ..."
+                margin="normal"
+                InputLabelProps={{
+                    shrink: true,
+                }}
                 value={formData?.decs}
                 name='decs'
                 className={classes.m8}
                 label="Task description"
                 multiline
                 rows={4}
+                onChange={handleChange}
                 variant="outlined"
             />
 
@@ -106,15 +124,23 @@ const useStyles = makeStyles((theme) => ({
     m8: {
         margin: 8
     },
+    statusZone: {
+        position: 'absolute',
+        top: 0,
+        display: 'flex',
+        alignItems: 'center',
+    },
     taskStatusZone: {
         flexDirection: 'row',
         justifyContent: 'space-around'
     },
-    textCenter: {
-        textAlign: 'center'
+    taskHeader: {
+        textAlign: 'center',
+        position: 'relative',
+        marginBottom: 10,
     },
     footerButtonZone: {
-        marginTop: 8,
+        marginTop: '3rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'end',

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "hiring-sp-client-side-solution",
+    "id": "35ce98e2-cb0f-492e-934c-a49d5ebfef4f",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.15.0-rc.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "hiring-sp description"
+      },
+      "longDescription": {
+        "default": "hiring-sp description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "hiring-sp Feature",
+        "description": "The feature that activates elements of the hiring-sp solution.",
+        "id": "ee11de39-6863-4a0b-8ad6-8123f87dd5db",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/hiring-sp.sppkg"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.15.0-rc.0",
+    "libraryName": "hiring-sp",
+    "libraryId": "35ce98e2-cb0f-492e-934c-a49d5ebfef4f",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "hiring-sp",
+    "solutionShortDescription": "hiring-sp description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
